@@ -1,26 +1,18 @@
-#!/bin/bash
-
-# Get the directory where this script is located
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-# Navigate to SqueezeAttention directory
-cd "${SCRIPT_DIR}/.."
-
 formatted=$(printf "%g" $i)
 cd helm
 rm -rf prod_env/cache/*
 sam_num=300
 model=llama2-7b-32k
 ini_size=0.4
-# KV_class3=0.25
-KV_class3=0.4
+KV_class3=0.25
 TASK=xsum
 path_percent=$(echo "($KV_class3* 100)/1" | bc)
 JSONL=../pred_${TASK}/${model}/${ini_size}/${path_percent}/${TASK}.jsonl
 OUTPUT=${TASK}_${model}_${ini_size}_${path_percent}_result
 ARCH=llama
 pre_path=/home/user/wangzihao/kv_pruner/helm/benchmark_output/runs
-mkdir -p ${pre_path}/${OUTPUT}
-mkdir -p ${pre_path}/${OUTPUT}/eval_cache
+mkdir ${pre_path}/${OUTPUT}
+mkdir ${pre_path}/${OUTPUT}/eval_cache
 cp benchmark_output/runs/eval_cache/* ${pre_path}/${OUTPUT}/eval_cache
 
 python scripts/offline_eval/import_results.py together ${JSONL} --cache-dir prod_env/cache
