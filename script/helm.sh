@@ -11,6 +11,31 @@ JSONL=../pred_${TASK}/${model}/${ini_size}/${path_percent}/${TASK}.jsonl
 OUTPUT=${TASK}_${model}_${ini_size}_${path_percent}_result
 ARCH=llama
 
+# Dynamically determine model display name for get_result_helm.py
+case $model in
+    *llama2*|*llama-2*)
+        MODEL_DISPLAY_NAME="Llama 2"
+        ;;
+    *llama3*|*llama-3*)
+        MODEL_DISPLAY_NAME="Llama 3"
+        ;;
+    *llama*)
+        MODEL_DISPLAY_NAME="LLaMA"
+        ;;
+    *gpt-neox*|*neox*)
+        MODEL_DISPLAY_NAME="GPT-NeoX"
+        ;;
+    *gpt*)
+        MODEL_DISPLAY_NAME="GPT"
+        ;;
+    *)
+        # Default fallback - extract base model name
+        MODEL_DISPLAY_NAME=$(echo $model | sed 's/-[0-9]*[bk]*$//' | sed 's/.*\///g' | tr '[:lower:]' '[:upper:]')
+        ;;
+esac
+
+echo "Using model: $model, Display name: $MODEL_DISPLAY_NAME"
+
 # Check if input JSONL file exists
 if [ ! -f "$JSONL" ]; then
     echo "Error: Input file $JSONL does not exist!"
@@ -35,4 +60,4 @@ cd ../
 python get_result_helm.py \
 	--input_path ./helm/benchmark_output/runs/${OUTPUT}/groups/latex/core_scenarios_accuracy.tex \
 	--output_path temp_result \
-	--model_name "Llama 2"
+	--model_name "$MODEL_DISPLAY_NAME"
