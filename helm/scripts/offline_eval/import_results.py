@@ -14,7 +14,7 @@ from helm.common.key_value_store import request_to_key
 from helm.common.hierarchical_logger import hlog, htrack
 
 from typing import List
-SUPPORTED_ORGS: List[str] = ["together", "google", "microsoft"]
+SUPPORTED_ORGS: List[str] = ["together", "google", "microsoft", "meta"]
 
 
 

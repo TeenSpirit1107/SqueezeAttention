@@ -51,7 +51,7 @@ else
     echo "No eval_cache files found in latest directory, starting with empty cache"
 fi
 
-python scripts/offline_eval/import_results.py together ${JSONL} --cache-dir prod_env/cache
+python scripts/offline_eval/import_results.py meta ${JSONL} --cache-dir prod_env/cache
 helm-run --conf src/helm/benchmark/presentation/${TASK}/run_specs_${ARCH}.conf --local-path . --max-eval-instances ${sam_num} --num-train-trials=1 --suite ${OUTPUT} -n 1 --cache-dir prod_env/cache
 
 helm-summarize --suite ${OUTPUT}
