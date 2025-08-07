@@ -10,7 +10,8 @@ path_percent=$(echo "($KV_class3* 100)/1" | bc)
 JSONL=../pred_${TASK}/${model}/${ini_size}/${path_percent}/${TASK}.jsonl
 OUTPUT=${TASK}_${model}_${ini_size}_${path_percent}_result
 ARCH=llama
-pre_path=/home/user/wangzihao/kv_pruner/helm/benchmark_output/runs
+# pre_path=/home/user/wangzihao/kv_pruner/helm/benchmark_output/runs
+pre_path=/local/ymteng/SqueezeAttention/helm/benchmark_output/runs
 mkdir ${pre_path}/${OUTPUT}
 mkdir ${pre_path}/${OUTPUT}/eval_cache
 cp benchmark_output/runs/eval_cache/* ${pre_path}/${OUTPUT}/eval_cache
