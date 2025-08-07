@@ -18,9 +18,13 @@ if [ ! -f "$JSONL" ]; then
 fi
 # pre_path=/home/user/wangzihao/kv_pruner/helm/benchmark_output/runs
 pre_path=/local/ymteng/SqueezeAttention/helm/benchmark_output/runs
-mkdir ${pre_path}/${OUTPUT}
-mkdir ${pre_path}/${OUTPUT}/eval_cache
-cp benchmark_output/runs/latest/eval_cache/* ${pre_path}/${OUTPUT}/eval_cache
+mkdir -p ${pre_path}/${OUTPUT}/eval_cache
+# Copy eval_cache files if they exist
+if [ "$(ls -A benchmark_output/runs/latest/eval_cache/ 2>/dev/null)" ]; then
+    cp benchmark_output/runs/latest/eval_cache/* ${pre_path}/${OUTPUT}/eval_cache
+else
+    echo "No eval_cache files found in latest directory, starting with empty cache"
+fi
 
 python scripts/offline_eval/import_results.py together ${JSONL} --cache-dir prod_env/cache
 helm-run --conf src/helm/benchmark/presentation/${TASK}/run_specs_${ARCH}.conf --local-path . --max-eval-instances ${sam_num} --num-train-trials=1 --suite ${OUTPUT} -n 1
@@ -31,4 +35,4 @@ cd ../
 python get_result_helm.py \
 	--input_path ./helm/benchmark_output/runs/${OUTPUT}/groups/latex/core_scenarios_accuracy.tex \
 	--output_path temp_result \
-	--model GPT-NeoX \
+	--model_name "Llama 2"
