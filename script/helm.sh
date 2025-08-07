@@ -4,7 +4,8 @@ rm -rf prod_env/cache/*
 sam_num=300
 model=llama2-7b-32k
 ini_size=0.4
-KV_class3=0.25
+# KV_class3=0.25
+KV_class3=0.4
 TASK=xsum
 path_percent=$(echo "($KV_class3* 100)/1" | bc)
 JSONL=../pred_${TASK}/${model}/${ini_size}/${path_percent}/${TASK}.jsonl
