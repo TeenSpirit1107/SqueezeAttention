@@ -150,7 +150,7 @@ def load_model_and_tokenizer(path, args):
     config.start_size = args.start_size
     device = args.device
     model_arch = args.model_arch
-    tokenizer = AutoTokenizer.from_pretrained(path, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(path, trust_remote_code=True, use_fast=False)
     with init_empty_weights():
         model = AutoModelForCausalLM.from_config(config)
     if 'cuda' not in device:
