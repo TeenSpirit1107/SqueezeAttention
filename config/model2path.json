@@ -1,4 +1,4 @@
 {
-    "Mistral": "/local/ymteng/models/Mistral",
+    "Mistral": "/local/ymteng/models/Mistral-7B-v0.1",
     "llama2-7b-32k": "/local/ymteng/models/llama2-7b-32k"
 }
